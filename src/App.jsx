@@ -1,25 +1,37 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import {
+  Routes,
+  Route,
+  useLocation
+} from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
 import './App.css';
 import Home from './pages/Home';
 import About from './pages/About';
 import Projects from './pages/Projects';
 import Contact from './pages/Contact';
-import Navbar from './components/Navbar';
 import MainLayout from './layouts/MainLayout';
+import SnakeGamePage from './pages/SnakeGamePage';
 
-const App = () => {
+function App() {
+  return <AppRoutes />;
+}
+
+function AppRoutes() {
+  const location = useLocation();
   return (
     <MainLayout>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/projects" element={<Projects />} />
-        <Route path="/contact" element={<Contact />} />
-      </Routes>
+      <AnimatePresence mode='wait'>
+        <Routes location={location} key={location.pathname}>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/snake-game" element={<SnakeGamePage />} />
+        </Routes>
+      </AnimatePresence>
     </MainLayout>
   );
-};
+}
 
 export default App;

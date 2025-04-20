@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { Button } from './ui/Button';
 import { motion } from 'framer-motion';
+import { HiOutlineUser, HiOutlineMail, HiOutlinePencilAlt } from 'react-icons/hi';
 
 // Form validation schema using Zod
 const contactSchema = z.object({
@@ -66,83 +67,94 @@ export default function ContactForm() {
   return (
     <motion.form 
       onSubmit={handleSubmit(onSubmit)} 
-      className="space-y-6 max-w-lg mx-auto"
+      className="space-y-6"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
       {submitStatus.success && (
         <motion.div 
-          className="bg-[rgba(56,203,137,0.1)] p-4 rounded-md border border-green-500 text-green-400"
+          className="bg-green-900/30 p-4 rounded-md border border-green-500/50 text-green-300 text-sm"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <p>Message sent successfully! We'll get back to you soon.</p>
+          Message sent successfully!
         </motion.div>
       )}
       
       {submitStatus.error && (
         <motion.div 
-          className="bg-[rgba(239,68,68,0.1)] p-4 rounded-md border border-red-500 text-red-400"
+          className="bg-red-900/30 p-4 rounded-md border border-red-500/50 text-red-300 text-sm"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <p>{submitStatus.error}</p>
+          {submitStatus.error}
         </motion.div>
       )}
       
-      <div>
-        <label htmlFor="name" className="block text-sm font-medium text-gray-300">
-          Name
-        </label>
+      <div className="relative">
+        <label htmlFor="name" className="sr-only">Name</label>
+        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <HiOutlineUser className="h-5 w-5 text-gray-400" />
+        </div>
         <input
           id="name"
           type="text"
+          placeholder="Your Name"
           {...register('name')}
-          className="mt-1 block w-full px-3 py-2 glass-panel border-gray-800 focus:accent-border focus:ring-1 focus:ring-[#22e6d2] text-white"
+          className="block w-full pl-10 pr-3 py-3 panel-background-style text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent sm:text-sm"
         />
         {errors.name && (
-          <p className="mt-1 text-sm text-red-400">{errors.name.message}</p>
+          <p className="absolute left-0 -bottom-5 text-xs text-red-400">{errors.name.message}</p>
         )}
       </div>
 
-      <div>
-        <label htmlFor="email" className="block text-sm font-medium text-gray-300">
-          Email
-        </label>
+      <div className="relative mt-6">
+        <label htmlFor="email" className="sr-only">Email</label>
+        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <HiOutlineMail className="h-5 w-5 text-gray-400" />
+        </div>
         <input
           id="email"
           type="email"
+          placeholder="Your Email"
           {...register('email')}
-          className="mt-1 block w-full px-3 py-2 glass-panel border-gray-800 focus:accent-border focus:ring-1 focus:ring-[#22e6d2] text-white"
+          className="block w-full pl-10 pr-3 py-3 panel-background-style text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent sm:text-sm"
         />
         {errors.email && (
-          <p className="mt-1 text-sm text-red-400">{errors.email.message}</p>
+          <p className="absolute left-0 -bottom-5 text-xs text-red-400">{errors.email.message}</p>
         )}
       </div>
 
-      <div>
-        <label htmlFor="message" className="block text-sm font-medium text-gray-300">
-          Message
-        </label>
+      <div className="relative mt-6">
+        <label htmlFor="message" className="sr-only">Message</label>
+        <div className="absolute top-3.5 left-0 pl-3 flex items-center pointer-events-none">
+          <HiOutlinePencilAlt className="h-5 w-5 text-gray-400" />
+        </div>
         <textarea
           id="message"
-          rows={4}
+          rows={5}
+          placeholder="Your Message"
           {...register('message')}
-          className="mt-1 block w-full px-3 py-2 glass-panel border-gray-800 focus:accent-border focus:ring-1 focus:ring-[#22e6d2] text-white"
+          className="block w-full pl-10 pr-3 py-3 panel-background-style text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent sm:text-sm resize-none"
         />
         {errors.message && (
-          <p className="mt-1 text-sm text-red-400">{errors.message.message}</p>
+          <p className="absolute left-0 -bottom-5 text-xs text-red-400">{errors.message.message}</p>
         )}
       </div>
 
-      <Button
-        type="submit"
-        disabled={isSubmitting}
-        className="w-full bg-transparent border accent-border accent-color hover:bg-[rgba(34,230,210,0.1)]"
-      >
-        {isSubmitting ? 'Sending...' : 'Send Message'}
-      </Button>
+      <div className="pt-2">
+        <Button
+          type="submit"
+          disabled={isSubmitting}
+          variant="hero-pill"
+          size="lg"
+          colorTheme="purple-indigo"
+          className="w-full"
+        >
+          {isSubmitting ? 'Sending...' : 'Send Message'}
+        </Button>
+      </div>
     </motion.form>
   );
 } 

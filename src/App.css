@@ -5,45 +5,109 @@
   box-sizing: border-box;
 }
 
+/* Add smooth scrolling behavior */
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   font-family: 'Montserrat', 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #0a0a0a;
+  /* Removed background-color from body */
+  /* background-color: #0a0a0a; */ 
   color: #fff;
   overflow-x: hidden;
+  /* Firefox scrollbar styles */
+  scrollbar-width: thin; 
+  scrollbar-color: #6366f1 #0a0a0a; 
+  
+  /* Prevent text selection */
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE/Edge */
+  user-select: none; /* Standard */
 }
 
 #root {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  /* Optionally add fallback background here if needed */
+  /* background-color: #0a0a0a; */
 }
 
-/* Background gradient */
+/* Animated Background - Replaced with static gradient glows */
+/* @keyframes gradientAnimation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+} */
+
+/* Subtle Animated Background */
+@keyframes subtleGradientShift {
+  0% { background-position: 0% 50%; }
+  25% { background-position: 100% 50%; } 
+  50% { background-position: 50% 100%; } 
+  75% { background-position: 0% 50%; }  
+  100% { background-position: 50% 0%; } 
+}
+
+/* Remove Floating Blob Keyframes */
+/* @keyframes floatBlob1 { ... } */
+/* @keyframes floatBlob2 { ... } */
+/* @keyframes floatBlob3 { ... } */
+/* @keyframes floatBlob4 { ... } */
+/* @keyframes floatBlob5 { ... } */
+/* @keyframes floatBlob6 { ... } */
+/* @keyframes floatBlob7 { ... } */
+
 .bg-main {
-  background-color: #0a0a0a;
-  background-image: radial-gradient(circle at 50% 50%, rgba(10, 10, 10, 0.9) 0%, rgba(3, 3, 3, 1) 100%);
+  background-color: #0a0a0a; /* Base black */
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: -2;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: -2; 
+  overflow: hidden; /* Prevent glows extending too far */
 }
 
-/* Cursor gradient */
+/* Add pseudo-element for grid and glows */
+.bg-main::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    /* Corner Glows */
+    radial-gradient(ellipse 50% 80% at 10% 100%, rgba(139, 92, 246, 0.15) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 80% at 90% 100%, rgba(34, 211, 238, 0.15) 0%, transparent 70%),
+    /* Subtle Grid Pattern */
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size:
+    100% 100%, /* Cover for glows */
+    100% 100%,
+    40px 40px, /* Grid size */
+    40px 40px;
+  z-index: -1; /* Sit between bg-main and content */
+  opacity: 0.7; /* Control overall visibility of glows+grid */
+}
+
+/* Remove individual blob styles */
+/* .bg-blob { ... } */
+/* #bg-blob-1 { ... } */
+/* ... etc ... */
+
+/* Cursor gradient (Adjusted for subtlety) */
 .cursor-gradient {
   position: fixed;
-  width: 1000px;
-  height: 1000px;
+  width: 800px; /* Slightly smaller */
+  height: 800px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(18, 230, 210, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+  background: radial-gradient(circle, rgba(34, 230, 210, 0.08) 0%, rgba(0, 0, 0, 0) 60%); /* More subtle */
   pointer-events: none;
   z-index: -1;
   transform: translate(-50%, -50%);
-  transition: transform 0.2s ease-out;
+  transition: transform 0.15s ease-out; /* Slightly faster transition */
 }
 
 /* Custom animations */
@@ -89,13 +153,71 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'JetBrains Mono', 'Courier New', monospace;
 }
 
-/* Glass panel */
+/* Glass panel (Base styles - Black) */
 .glass-panel {
   background: rgba(20, 20, 20, 0.7);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  /* border: 1px solid rgba(255, 255, 255, 0.1); */
   border-radius: 8px;
+  height: 100%;
 }
+
+/* New background style based on screenshot */
+.panel-background-style {
+  /* Dark slate/blue tint with transparency */
+  background-color: rgba(30, 35, 48, 0.7); /* Adjust color/alpha as needed */
+  /* No backdrop blur */
+  border-radius: 8px; /* Match rounded-lg */
+  /* Add border back if needed, maybe subtle */
+  border: 1px solid rgba(255, 255, 255, 0.05); 
+}
+
+/* Gray Glass panel style (Not used for these elements anymore) */
+/* .gray-glass-panel { ... } */
+
+/* Specific panel style for Home page AI container */
+.home-ai-panel {
+  position: relative; /* Context for pseudo-element */
+  overflow: hidden; /* Ensure pseudo-element respects border-radius */
+  border-radius: 8px; /* Match rounded-lg */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  /* Apply dark background and blur to the main element */
+  background-color: rgba(20, 20, 20, 0.75); /* Slightly adjust alpha if needed */
+  backdrop-filter: blur(12px); /* Adjust blur if needed */
+  /* No internal gradient needed per latest screenshot */
+}
+
+/* REMOVE Internal Gradient for home panel */
+/* 
+.home-ai-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit; /* Match parent's radius */
+/* Gradient Layer - place behind the background-color */
+/*   background: linear-gradient(
+    135deg, 
+    rgba(139, 92, 246, 0.15) 0%, /* Subtle purple */
+/*     rgba(34, 211, 238, 0.15) 100% /* Subtle cyan */
+/*   );
+  z-index: -1; /* Position behind the main background */
+/* }
+*/
+
+/* Specific panel style for Skill Cards */
+.skill-card-panel {
+  position: relative;
+  /* Remove overflow: hidden if present, it clips the glow */
+  /* overflow: hidden; */ 
+  border-radius: 8px; 
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: rgba(20, 20, 20, 0.75); 
+  backdrop-filter: blur(10px); 
+  z-index: 0; 
+}
+
+/* ENSURE Internal Gradient for skill cards is REMOVED */
+/* .skill-card-panel::before { ... } */
 
 /* Cyan accent color */
 .accent-color {
@@ -112,18 +234,24 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px; /* Slightly wider for better visibility */
+  height: 10px; /* For horizontal scrollbars */
 }
 
 ::-webkit-scrollbar-track {
-  background: #0f0f0f;
+  background: #0a0a0a; /* Changed track to black */
+  border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #333;
-  border-radius: 4px;
+  /* Apply the gradient */
+  background: linear-gradient(135deg, #8b5cf6, #4f46e5); /* purple-500 to indigo-600 */
+  border-radius: 5px;
+  /* Use black border to match new track color */
+  border: 2px solid #0a0a0a; /* Add border matching track for padding effect */
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #444;
+  /* Slightly lighten gradient on hover */
+  background: linear-gradient(135deg, #a78bfa, #6366f1); /* purple-400 to indigo-500 */
 }

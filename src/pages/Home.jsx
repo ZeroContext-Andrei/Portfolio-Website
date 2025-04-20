@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '../components/ui/Button';
+import PageTransition from '../components/PageTransition';
 
 // Typing animation component for role display
 const TypedRoles = () => {
@@ -62,14 +63,18 @@ const TypedRoles = () => {
 
 // Social icons with hover effects
 const SocialIcons = () => {
+  const hoverColor = '#8b5cf6'; // Purple-500
+  const transitionSettings = { duration: 0.15 }; // Faster transition
+
   return (
     <div className="flex space-x-6 my-6">
       <motion.a 
         href="https://github.com" 
         target="_blank"
+        aria-label="Visit our GitHub profile"
         initial={{ color: "#ffffff" }}
-        whileHover={{ color: '#22e6d2', scale: 1.05 }}
-        transition={{ duration: 0.3, ease: 'easeInOut' }}
+        whileHover={{ color: hoverColor, scale: 1.05 }}
+        transition={transitionSettings}
         className="text-2xl"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -79,9 +84,10 @@ const SocialIcons = () => {
       <motion.a 
         href="https://linkedin.com" 
         target="_blank"
+        aria-label="Visit our LinkedIn profile"
         initial={{ color: "#ffffff" }}
-        whileHover={{ color: '#22e6d2', scale: 1.05 }}
-        transition={{ duration: 0.3, ease: 'easeInOut' }}
+        whileHover={{ color: hoverColor, scale: 1.05 }}
+        transition={transitionSettings}
         className="text-2xl"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -93,9 +99,10 @@ const SocialIcons = () => {
       <motion.a 
         href="https://instagram.com" 
         target="_blank"
+        aria-label="Visit our Instagram profile"
         initial={{ color: "#ffffff" }}
-        whileHover={{ color: '#22e6d2', scale: 1.05 }}
-        transition={{ duration: 0.3, ease: 'easeInOut' }}
+        whileHover={{ color: hoverColor, scale: 1.05 }}
+        transition={transitionSettings}
         className="text-2xl"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -110,68 +117,75 @@ const SocialIcons = () => {
 
 // Main Home component
 export default function Home() {
-  const scrollToContact = () => {
-    const contactSection = document.getElementById('contact');
-    if (contactSection) {
-      contactSection.scrollIntoView({ behavior: 'smooth' });
-    }
+  const navigate = useNavigate();
+
+  const navigateToContact = () => {
+    navigate('/contact');
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden text-white">
-      <div className="container mx-auto px-6 py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[80vh]">
-          {/* Left Hero Section */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="flex flex-col justify-center"
-          >
-            <h2 className="font-['Rajdhani'] text-2xl font-medium mb-2">AI-Powered Innovation</h2>
-            <h1 className="font-['Rajdhani'] text-6xl font-bold mb-6 tracking-wider heading-extra-bold">
-              FULL-STACK<br/>DEVELOPER
-            </h1>
-            
-            <SocialIcons />
-            
-            <p className="text-xl mb-8 text-gray-300">
-              Bring your visions to life with innovation and creativity
-            </p>
+    <PageTransition>
+      <div className="relative overflow-hidden text-white min-h-[calc(100vh-5rem)] flex flex-col justify-center">
+        <div className="container mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center w-full">
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="flex flex-col justify-center text-center lg:text-left"
+            >
+              <h2 className="font-['Rajdhani'] text-xl sm:text-2xl font-medium mb-3 text-gray-300">AI-Powered Innovation</h2>
+              <h1 className="font-['Rajdhani'] text-5xl sm:text-6xl md:text-7xl font-bold mb-5 tracking-wide heading-extra-bold">
+                FULL-STACK<br/>
+                <span className="bg-gradient-to-r from-purple-600 to-indigo-600 text-transparent bg-clip-text">
+                  DEVELOPER
+                </span>
+              </h1>
+              <div className="flex justify-center lg:justify-start">
+                <SocialIcons />
+              </div>
+              <p className="text-lg sm:text-xl mb-10 text-gray-400 leading-relaxed max-w-lg mx-auto lg:mx-0">
+                Bring your visions to life with cutting-edge technology and creative problem-solving.
+              </p>
+              
+              <div className="self-center lg:self-start">
+                <Button 
+                  onClick={navigateToContact}
+                  variant="hero-pill"
+                  size="lg"
+                >
+                  Get Started
+                </Button>
+              </div>
+            </motion.div>
             
             <motion.div
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.98 }}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ 
+                opacity: 1, 
+                y: 0, 
+                transition: { duration: 0.8, delay: 0.3, ease: "easeOut" }
+              }}
+              className="group ease-in-out"
+              whileHover={{ y: -5, scale: 1.03 }}
+              transition={{ duration: 0.2 }}
             >
-              <Button 
-                onClick={scrollToContact}
-                className="w-40 bg-transparent border accent-border accent-color hover:bg-[rgba(34,230,210,0.1)]"
-              >
-                Get Started
-              </Button>
+              <div className="panel-background-style p-8 md:p-10 lg:p-12 h-full group-hover:border-purple-500/60 group-hover:shadow-lg group-hover:shadow-purple-500/20 transition-colors transition-shadow duration-300 ease-in-out">
+                <div className="flex flex-col justify-center h-full">
+                  <h2 className="font-['Rajdhani'] text-2xl md:text-3xl font-bold mb-4 text-white">
+                    Create with{' '}
+                    <span className="bg-gradient-to-r from-purple-600 to-indigo-600 text-transparent bg-clip-text">AI</span> 
+                    + 
+                    <span className="bg-gradient-to-r from-purple-600 to-indigo-600 text-transparent bg-clip-text">Developer</span>
+                  </h2>
+                  <div className="text-base md:text-lg mb-6 text-gray-400">and explore roles like:</div>
+                  <TypedRoles />
+                </div>
+              </div>
             </motion.div>
-          </motion.div>
-          
-          {/* Right Grey Container */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
-            className="glass-panel p-12"
-          >
-            <div className="flex flex-col justify-center h-full">
-              <h2 className="font-['Rajdhani'] text-3xl font-bold mb-6">Create with AI + Developer</h2>
-              <div className="text-lg mb-8 text-gray-300">and</div>
-              <TypedRoles />
-            </div>
-          </motion.div>
+          </div>
         </div>
       </div>
-      
-      {/* Placeholder for Contact section (you'll scroll to here) */}
-      <div id="contact" className="py-20">
-        {/* Contact form will be here */}
-      </div>
-    </div>
+    </PageTransition>
   );
 } 

@@ -1,26 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
-import logo from '../assets/logo.png';
+import ParticlesBackground from '../components/ParticlesBackground';
 
-const NavIcon = ({ href, icon, label, isActive }) => {
-  return (
-    <Link
-      to={href}
-      className="relative flex flex-col items-center group cursor-pointer"
-    >
-      <span 
-        className={`text-2xl transition-colors duration-300 ${isActive ? 'accent-color' : 'text-white'}`}
-      >
-        {icon}
-      </span>
-      <span className="sr-only">{label}</span>
-      {isActive && (
-        <span className="absolute bottom-0 w-full h-0.5 accent-bg animate-underlineIn" />
-      )}
-    </Link>
-  );
-};
+// Remove placeholder NavIcon
 
 // Mouse cursor gradient effect
 const CursorGradient = () => {
@@ -51,54 +34,72 @@ const CursorGradient = () => {
 
 const MainLayout = ({ children }) => {
   const location = useLocation();
-  const [activeRoute, setActiveRoute] = React.useState('/');
   
-  React.useEffect(() => {
-    setActiveRoute(location.pathname);
-  }, [location]);
+  const navItems = [
+    { path: '/', label: 'Home' },
+    { path: '/about', label: 'About' },
+    { path: '/projects', label: 'Projects' },
+    { path: '/contact', label: 'Contact' }
+  ];
 
   return (
-    <div className="min-h-screen relative">
-      {/* Fixed background */}
+    <div className="min-h-screen relative isolate">
+      {/* Base background div (styling in CSS) */}
       <div className="bg-main"></div>
+      
+      {/* Add Particles Background */}
+      <ParticlesBackground />
       
       {/* Cursor gradient */}
       <CursorGradient />
       
-      <nav className="navbar fixed top-0 left-0 right-0 z-50">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex justify-between h-16">
-            <div className="flex items-center">
-              <Link to="/" className="flex items-center">
-                <img src={logo} alt="Zero Context Logo" className="h-8 mr-2" />
-                <span className="font-['Rajdhani'] text-xl font-bold text-white">Zero Context</span>
-              </Link>
-            </div>
-            <div className="flex items-center space-x-8">
-              <NavIcon 
-                href="/" 
-                icon="🏠" 
-                label="Home" 
-                isActive={activeRoute === '/'} 
-              />
-              <NavIcon 
-                href="/about" 
-                icon="ℹ️" 
-                label="About" 
-                isActive={activeRoute === '/about'} 
-              />
-              <NavIcon 
-                href="/contact" 
-                icon="📱" 
-                label="Contact" 
-                isActive={activeRoute === '/contact'} 
-              />
+      {/* Navbar Container (Transparent) */}
+      <nav className="fixed top-0 left-0 right-0 z-50 h-16"> {/* Height set for positioning context */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full relative">
+          {/* Left side: Brand/Logo (Relatively positioned) */}
+          <div className="absolute left-4 sm:left-6 lg:left-8 top-1/2 transform -translate-y-1/2 flex-shrink-0 flex items-center">
+            <Link to="/" className="flex items-center">
+              <span className="text-xl font-semibold text-white">:) Zero Context</span>
+            </Link>
+          </div>
+
+          {/* Centered Glass Panel with Links and Sliding Pill */}
+          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <div className="glass-panel px-3 py-1.5 rounded-full shadow-lg">
+              <div className="flex items-center space-x-1">
+                {navItems.map((item) => {
+                  const isActive = location.pathname === item.path;
+                  return (
+                    <Link
+                      key={item.path}
+                      to={item.path}
+                      className={`relative text-sm font-medium transition-colors duration-200 px-3 py-1.5 rounded-full ${isActive ? 'text-white' : 'text-gray-400 hover:text-white'}`}
+                      aria-current={isActive ? 'page' : undefined}
+                    >
+                      {item.label}
+                      {isActive && (
+                        <motion.span
+                          className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 -z-10"
+                          layoutId="active-pill" // Key for the animation
+                          transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                        />
+                      )}
+                    </Link>
+                  );
+                })}
+              </div>
             </div>
           </div>
+
+          {/* Right side: Can be empty or add elements later */}
+          {/* <div className="absolute right-4 sm:right-6 lg:right-8 top-1/2 transform -translate-y-1/2">...</div> */}
         </div>
       </nav>
       
-      <main className="pt-16 relative z-10">
+      {/* Main content - Padding for fixed navbar */} 
+      <main className="pt-20 relative z-10"> {/* Adjusted padding slightly */}
         {children}
       </main>
     </div>
