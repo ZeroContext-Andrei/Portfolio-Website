@@ -8,7 +8,7 @@ import { AnimatePresence } from 'framer-motion';
 import './App.css';
 import Home from './pages/Home';
 import About from './pages/About';
-import Projects from './pages/Projects';
+import Portfolio from './pages/Portfolio';
 import Contact from './pages/Contact';
 import MainLayout from './layouts/MainLayout';
 import SnakeGamePage from './pages/SnakeGamePage';
@@ -25,7 +25,7 @@ function AppRoutes() {
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
-          <Route path="/projects" element={<Projects />} />
+          <Route path="/projects" element={<Portfolio />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/snake-game" element={<SnakeGamePage />} />
         </Routes>

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import PageTransition from '../components/PageTransition';
+import ProjectCard from '../components/ProjectCard';
 
-const Projects = () => {
+const Portfolio = () => {
   // Sample project data - replace with actual projects
   const projects = [
     {
@@ -153,4 +154,4 @@ const Projects = () => {
   );
 };
 
-export default Projects; 
+export default Portfolio; 
