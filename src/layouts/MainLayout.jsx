@@ -38,7 +38,7 @@ const MainLayout = ({ children }) => {
   const navItems = [
     { path: '/', label: 'Home' },
     { path: '/about', label: 'About' },
-    { path: '/projects', label: 'Projects' },
+    { path: '/projects', label: 'Portfolio' },
     { path: '/contact', label: 'Contact' }
   ];
 
