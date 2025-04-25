@@ -1,4 +1,4 @@
-# Project Cursor
+# Portfolio Website
 
 ## Tech Stack
 
